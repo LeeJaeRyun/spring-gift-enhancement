@@ -14,7 +14,7 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
 
     List<Wishlist> findByMember(Member member);
 
-    boolean existByMemberAndItem(Member member, Item item);
+    boolean existsByMemberAndItem(Member member, Item item);
 
     void deleteByMemberAndItem(Member member, Item item);
 }
