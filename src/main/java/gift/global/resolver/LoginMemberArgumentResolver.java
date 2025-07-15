@@ -34,14 +34,14 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                 parameter.getParameterType().equals(Member.class);
     }
 
-    //
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        Long memberId = (Long) webRequest.getAttribute("memberId", NativeWebRequest.SCOPE_REQUEST);
-        if (memberId == null) {
+        String memberIdStr = (String) webRequest.getAttribute("memberId", NativeWebRequest.SCOPE_REQUEST);
+        if (memberIdStr == null) {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
+        Long memberId = Long.valueOf(memberIdStr);
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
     }
