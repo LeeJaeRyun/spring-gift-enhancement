@@ -45,15 +45,10 @@ public class Item {
         return imageUrl;
     }
 
-    public void setName(String name) {
+    public void update(String name, Integer price, String imageUrl) {
         this.name = name;
-    }
-
-    public void setPrice(Integer price) {
         this.price = price;
-    }
-
-    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }
