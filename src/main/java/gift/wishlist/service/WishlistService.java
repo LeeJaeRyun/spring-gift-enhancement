@@ -44,7 +44,7 @@ public class WishlistService {
         Item item = itemRepository.findById(request.itemId())
                 .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
 
-        if (wishlistRepository.existsByMemberAndItem(member, item)) {
+        if (wishlistRepository.existByMemberAndItem(member, item)) {
             throw new CustomException(ErrorCode.WISH_ALREADY_EXISTS);
         }
 
@@ -58,4 +58,5 @@ public class WishlistService {
 
         wishlistRepository.deleteByMemberAndItem(member, item);
     }
+
 }
