@@ -24,23 +24,21 @@ public class ItemService {
     @Transactional
     public ItemDto saveItem(CreateItemDto dto) {
         validateKeyword(dto.getName());
-        Item item = new Item(null, dto.getName(), dto.getPrice(), dto.getImageUrl());
-        Item savedItem = itemRepository.saveItem(item);
+        Item item = new Item(dto.getName(), dto.getPrice(), dto.getImageUrl());
+        Item savedItem = itemRepository.save(item);
         return new ItemDto(savedItem);
     }
 
     @Transactional(readOnly = true)
     public ItemDto findItem(Long id) {
-        Item item = itemRepository.findItem(id);
-        if (item == null) {
-            throw new CustomException(ErrorCode.ITEM_NOT_FOUND);
-        }
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
         return new ItemDto(item);
     }
 
     @Transactional(readOnly = true)
     public List<ItemDto> findAllItems() {
-        List<Item> item = itemRepository.findAllItems();
+        List<Item> item = itemRepository.findAll();
         return item.stream()
                 .map(ItemDto::new)
                 .toList();
@@ -48,17 +46,15 @@ public class ItemService {
 
     @Transactional
     public void deleteItem(Long id) {
-        itemRepository.deleteItem(id);
+        itemRepository.deleteById(id);
     }
 
     @Transactional
     public void updateItem(Long id, UpdateItemDto dto) {
         validateKeyword(dto.getName());
-        Item existingitem = itemRepository.findItem(id);
-        if (existingitem == null) {
-            throw new CustomException(ErrorCode.ITEM_NOT_FOUND);
-        }
-        itemRepository.updateItem(id, dto);
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
+        item.update(dto.getName(), dto.getPrice(), dto.getImageUrl());
     }
 
     private void validateKeyword(String name) {
