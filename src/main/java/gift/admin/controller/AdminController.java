@@ -1,8 +1,12 @@
 package gift.admin.controller;
 
 import gift.item.dto.CreateItemDto;
+import gift.item.dto.ItemDto;
 import gift.item.dto.UpdateItemDto;
 import gift.item.service.ItemService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +22,14 @@ public class AdminController {
 
     //상품 전체 목록 조회 페이지
     @GetMapping("/admin/products")
-    public String getAllProducts(Model model) {
-        model.addAttribute("products", itemService.findAllItems());
+    public String getAllProducts(
+            @PageableDefault(size = 10, sort = "id") Pageable pageable,
+            Model model) {
+        Page<ItemDto> page = itemService.findAllItems(pageable);
+        // 현재 페이지 상품 리스트
+        model.addAttribute("products", page.getContent());
+        // 페이지 정보 전체 전달
+        model.addAttribute("page", page);
         return "list";
     }
 
