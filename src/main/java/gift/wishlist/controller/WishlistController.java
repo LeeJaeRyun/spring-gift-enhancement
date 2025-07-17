@@ -5,12 +5,12 @@ import gift.member.entity.Member;
 import gift.wishlist.dto.WishRequest;
 import gift.wishlist.dto.WishResponse;
 import gift.wishlist.service.WishlistService;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/wishes")
@@ -23,8 +23,10 @@ public class WishlistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponse>> getWishes(@LoginMember Member member) {
-        List<WishResponse> wishes = wishlistService.getWishes(member);
+    public ResponseEntity<Page<WishResponse>> getWishes(
+            @LoginMember Member member,
+            @PageableDefault(size = 5) Pageable pageable) {
+        Page<WishResponse> wishes = wishlistService.getWishes(member, pageable);
         return ResponseEntity.ok(wishes);
     }
 

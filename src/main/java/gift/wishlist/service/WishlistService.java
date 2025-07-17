@@ -9,10 +9,10 @@ import gift.wishlist.dto.WishRequest;
 import gift.wishlist.dto.WishResponse;
 import gift.wishlist.entity.Wishlist;
 import gift.wishlist.repository.WishlistRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class WishlistService {
@@ -26,16 +26,14 @@ public class WishlistService {
     }
 
     @Transactional(readOnly = true)
-    public List<WishResponse> getWishes(Member member) {
-        return wishlistRepository.findByMember(member)
-                .stream()
+    public Page<WishResponse> getWishes(Member member, Pageable pageable) {
+        return wishlistRepository.findByMember(member, pageable)
                 .map(wish -> new WishResponse(
                         wish.getItem().getId(),
                         wish.getItem().getName(),
                         wish.getItem().getPrice(),
                         wish.getItem().getImageUrl()
-                ))
-                .collect(Collectors.toList());
+                ));
     }
 
     @Transactional
