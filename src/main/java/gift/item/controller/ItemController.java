@@ -5,6 +5,9 @@ import gift.item.dto.ItemDto;
 import gift.item.dto.UpdateItemDto;
 import gift.item.service.ItemService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -27,10 +30,12 @@ public class ItemController {
         return ResponseEntity.ok(itemDto);
     }
 
-    //상품 전체 조회
+    //상품 전체 조회 (페이지네이션 적용)
     @GetMapping("/api/products")
-    public ResponseEntity<List<ItemDto>> findAllItems() {
-        List<ItemDto> items = itemService.findAllItems();
+    public ResponseEntity<Page<ItemDto>> findAllItems(
+            @PageableDefault(size = 10, sort = "id") Pageable pageable
+    ) {
+        Page<ItemDto> items = itemService.findAllItems(pageable);
         return ResponseEntity.ok(items);
     }
 

@@ -8,6 +8,8 @@ import gift.item.dto.ItemDto;
 import gift.item.dto.UpdateItemDto;
 import gift.item.entity.Item;
 import gift.item.repository.ItemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -37,11 +39,9 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<ItemDto> findAllItems() {
-        List<Item> item = itemRepository.findAll();
-        return item.stream()
-                .map(ItemDto::new)
-                .toList();
+    public Page<ItemDto> findAllItems(Pageable pageable) {
+        return itemRepository.findAll(pageable)
+                .map(ItemDto::new);
     }
 
     @Transactional
