@@ -7,7 +7,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
 @Entity
-@Table(name = "options")
+@Table(name = "options", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"item_id", "name"})
+})
 public class Option {
 
     @Id
