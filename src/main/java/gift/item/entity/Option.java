@@ -1,5 +1,7 @@
 package gift.item.entity;
 
+import gift.global.exception.CustomException;
+import gift.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -35,4 +37,18 @@ public class Option {
     public Integer getQuantity() {
         return quantity;
     }
+
+    public void decreaseQuantity(int num) {
+
+        if (num < 0) {
+            throw new CustomException(ErrorCode.INVALID_QUANTITY_DECREASE);
+        }
+
+        if (quantity < num) {
+            quantity = 0;
+        } else {
+            quantity -= num;
+        }
+    }
+
 }
