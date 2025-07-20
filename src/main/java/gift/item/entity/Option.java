@@ -24,4 +24,15 @@ public class Option {
 
     protected Option() {}
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
 }
