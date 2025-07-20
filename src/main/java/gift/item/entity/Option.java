@@ -15,8 +15,6 @@ public class Option {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @Min(1)
-    @Max(99_999_999)
     @Column(nullable = false)
     private Integer quantity;
 
