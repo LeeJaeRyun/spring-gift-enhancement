@@ -41,6 +41,7 @@ public class AdminController {
     @GetMapping("/admin/products/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
         model.addAttribute("product", itemService.findItem(id));
+        model.addAttribute("options", optionService.findOptionsByItemId(id));
         return "detail";
     }
 
