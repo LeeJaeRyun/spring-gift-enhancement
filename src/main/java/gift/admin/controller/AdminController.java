@@ -2,8 +2,10 @@ package gift.admin.controller;
 
 import gift.item.dto.CreateItemDto;
 import gift.item.dto.ItemDto;
+import gift.item.dto.OptionRequestDto;
 import gift.item.dto.UpdateItemDto;
 import gift.item.service.ItemService;
+import gift.item.service.OptionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final ItemService itemService;
+    private final OptionService optionService;
 
-    public AdminController(ItemService itemService) {
+    public AdminController(ItemService itemService, OptionService optionService) {
         this.itemService = itemService;
+        this.optionService = optionService;
     }
 
     //상품 전체 목록 조회 페이지
@@ -73,6 +77,16 @@ public class AdminController {
     public String updateProduct(@PathVariable Long id, UpdateItemDto dto) {
         itemService.updateItem(id, dto);
         return "redirect:/admin/products";
+    }
+
+    //옵션 추가 기능
+    @PostMapping("/admin/products/{productId}/options/create")
+    public String createOption(
+            @PathVariable Long productId,
+            @ModelAttribute OptionRequestDto optionRequestDto
+    ) {
+        optionService.addOption(productId, optionRequestDto);
+        return "redirect:/admin/products/" + productId;
     }
 
 }

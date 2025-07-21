@@ -40,6 +40,12 @@ public class Option {
         return quantity;
     }
 
+    public Option(String name, Integer quantity, Item item) {
+        this.name = name;
+        this.quantity = quantity;
+        this.item = item;
+    }
+
     public void decreaseQuantity(int num) {
 
         if (num < 0) {
