@@ -89,4 +89,12 @@ public class AdminController {
         return "redirect:/admin/products/" + productId;
     }
 
+    //옵션 추가하는 페이지
+    @GetMapping("/admin/products/{productId}/options/create")
+    public String showCreateOptionForm(@PathVariable Long productId, Model model) {
+        model.addAttribute("productId", productId);
+        model.addAttribute("optionRequestDto", new OptionRequestDto("", 1));
+        return "option-create";
+    }
+
 }
