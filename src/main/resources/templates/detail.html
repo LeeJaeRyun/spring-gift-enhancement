@@ -27,6 +27,13 @@
             <td th:text="${product.getImageUrl()}"></td>
         </tr>
     </table>
+
+    <div class="mb-3">
+        <a th:href="@{'/admin/products/' + ${product.getId()} + '/options/create'}" class="btn btn-primary">
+            옵션 추가
+        </a>
+    </div>
+
     <a th:href="@{/admin/products}" class="btn btn-secondary">목록으로</a>
 </div>
 </body>
