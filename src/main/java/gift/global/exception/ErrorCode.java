@@ -7,6 +7,8 @@ public enum ErrorCode {
     // 400 BadRequest
     ITEM_KEYWORD_INVALID(40000, HttpStatus.BAD_REQUEST, "'카카오' 단어는 MD와 협의 후 사용 가능합니다."),
     WISH_ALREADY_EXISTS(40002, HttpStatus.BAD_REQUEST, "이미 위시리스트에 존재하는 상품입니다."),
+    OPTION_NAME_DUPLICATE(40003, HttpStatus.BAD_REQUEST, "해당 상품에 동일한 옵션명이 이미 존재합니다."),
+    INVALID_QUANTITY_DECREASE(40004, HttpStatus.BAD_REQUEST, "차감 수량은 음수일 수 없습니다."),
 
     // 401 Unauthorized
     WRONG_HEADER_TOKEN(40100, HttpStatus.UNAUTHORIZED, "잘못된 토큰입니다."),

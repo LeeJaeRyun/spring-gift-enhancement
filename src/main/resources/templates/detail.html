@@ -27,6 +27,33 @@
             <td th:text="${product.getImageUrl()}"></td>
         </tr>
     </table>
+
+    <div class="mt-5">
+        <h4>옵션 목록</h4>
+        <table class="table table-bordered w-50">
+            <thead>
+            <tr>
+                <th>옵션 ID</th>
+                <th>옵션명</th>
+                <th>옵션 개수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="option : ${options}">
+                <td th:text="${option.id}"></td>
+                <td th:text="${option.name}"></td>
+                <td th:text="${option.quantity} + '개'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mb-3">
+        <a th:href="@{'/admin/products/' + ${product.getId()} + '/options/create'}" class="btn btn-primary">
+            옵션 추가
+        </a>
+    </div>
+
     <a th:href="@{/admin/products}" class="btn btn-secondary">목록으로</a>
 </div>
 </body>
