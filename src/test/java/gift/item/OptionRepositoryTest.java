@@ -6,10 +6,14 @@ import gift.item.repository.ItemRepository;
 import gift.item.repository.OptionRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,9 +46,10 @@ public class OptionRepositoryTest {
                 .containsExactlyInAnyOrder("레전드", "유니크");
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("provideOptionExistCases")
     @DisplayName("itemId와 옵션명으로 옵션 존재 여부 확인")
-    void existsByItemIdAndName() {
+    void existsByItemIdAndName(String optionName, boolean expected) {
         //given
         Item item = new Item("바지", 1000, "pants.com");
         itemRepository.save(item);
@@ -53,12 +58,17 @@ public class OptionRepositoryTest {
         optionRepository.save(option);
 
         //when
-        boolean exists = optionRepository.existsByItemIdAndName(item.getId(), "레전드");
-        boolean notExists = optionRepository.existsByItemIdAndName(item.getId(), "레어");
+        boolean result = optionRepository.existsByItemIdAndName(item.getId(),  optionName);
 
         //then
-        assertThat(exists).isTrue();
-        assertThat(notExists).isFalse();
+        assertThat(result).isEqualTo(expected);
+    }
+
+    static Stream<Arguments> provideOptionExistCases() {
+        return Stream.of(
+                Arguments.of("레전드", true),
+                Arguments.of("레어", false)
+        );
     }
 
 }
